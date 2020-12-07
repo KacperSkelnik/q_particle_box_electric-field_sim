@@ -1,0 +1,8 @@
+100       # N
+4         # n
+0.0001     # dtau
+2         # K
+0         # Omega
+8000      # N_sim
+10        # S_out
+10        # S_dat
