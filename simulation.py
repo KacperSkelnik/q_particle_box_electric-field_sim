@@ -1,7 +1,7 @@
 import numpy as np
-import numba
 import time
 from decimal import Decimal
+
 
 def initialization(N, n):
     x_k = np.linspace(0, 1, N+1)
@@ -15,17 +15,15 @@ def initialization(N, n):
     return Psi_real, Psi_imag
 
 
-#@numba.njit
 def hamiltonian(tab, N, K, Omega, tau):
     tmp = np.zeros(N+1)
     
-    for i in range (1,N):
+    for i in range(1,N):
         tmp[i] = -(1/2)*(tab[i+1] + tab[i-1] - 2*tab[i])/np.power(1/N,2) + K*( (i/N) - (1/2) )*tab[i]*np.sin(Omega * tau)
     
     return tmp
 
 
-#@numba.njit
 def sim(Psi_real, Psi_imag, N_sim, S_out, S_dat, dtau, N, K, Omega):
     tau = 0
     
@@ -74,10 +72,9 @@ if __name__ == "__main__":
         if len(key_value) == 2:
             params[key_value[1].strip()] = np.float(key_value[0].strip())
     
-    Omega = 3*np.power(np.pi,2)/2
-    
+
     Psi_real, Psi_imag = initialization(int(params['N']), int(params['n']))
     sim(Psi_real, Psi_imag, int(params['N_sim']), int(params['S_out']), int(params['S_dat']),
-        float(params['dtau']), int(params['N']), float(params['K']), Omega)#float(params['Omega']))
-    
+        float(params['dtau']), int(params['N']), float(params['K']), float(params['Omega']))
+
     print("Simulation took", round(time.time() - start_time,2) , "s to run")
